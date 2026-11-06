@@ -8,8 +8,7 @@ cask "kaname" do
   version "2.3.0"
   sha256 "0cdcc82ca13b0a61235c0508e931d99bbe064e3bb665ec2548f17a561234938d"
 
-  url "https://github.com/suliveevil/kaname/releases/download/v#{version}/Kaname-#{version}.dmg",
-      verified: "github.com/suliveevil/kaname/"
+  url "https://github.com/suliveevil/kaname/releases/download/v#{version}/Kaname-#{version}.dmg"
   name "Kaname"
   desc "Context-aware keyboard shortcut hints and search for the active macOS app"
   homepage "https://github.com/suliveevil/kaname"
@@ -20,7 +19,7 @@ cask "kaname" do
   end
 
   # 14.0, matching LSMinimumSystemVersion in scripts/Info.plist.
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   # Apple Silicon is the only supported configuration. The DMG built by
   # scripts/build_release.sh is universal (x86_64 + arm64), but Intel is untested, so
@@ -29,7 +28,9 @@ cask "kaname" do
   # about the binary's architectures.
   depends_on arch: :arm64
 
-  app "Kaname"
+  # Homebrew 7 takes the stanza argument literally: without the extension it looks for a
+  # staged item named "Kaname" and fails with "App source … is not there".
+  app "Kaname.app"
 
   # Kaname is an LSUIElement menu bar app: replacing the bundle while the old process
   # still runs leaves it holding a deleted binary and the event tap. `login_item` is
@@ -41,11 +42,10 @@ cask "kaname" do
 
   caveats <<~EOS
     Kaname is signed with a local certificate and is not notarized by Apple, so
-    macOS blocks its first launch. Either approve it once in
-    System Settings → Privacy & Security ("Open Anyway"), or install with:
-      brew install --cask --no-quarantine kaname
-    The latter skips Gatekeeper's first-launch check for this package only, and
-    `brew upgrade` without the flag will quarantine it again.
+    macOS blocks its first launch. Approve it once in
+    System Settings → Privacy & Security ("Open Anyway"). Homebrew downloads a
+    fresh copy on every `brew upgrade`, so the same approval is needed again
+    after each upgrade.
   EOS
 
   zap trash: [
