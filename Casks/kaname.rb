@@ -5,8 +5,8 @@
 # The DMG URL and asset name must match scripts/build_release.sh exactly.
 #
 cask "kaname" do
-  version "2.3.2"
-  sha256 "01b996c37e7076a1e5a0d9d051b341e339b0e0da70536940dd551def6a63b44f"
+  version "2.3.3"
+  sha256 "b5cb13c646a848f10c68635fab34784cdd46fc9d9925a3481cbb2700c0240596"
 
   url "https://github.com/suliveevil/kaname/releases/download/v#{version}/Kaname-#{version}.dmg"
   name "Kaname"
